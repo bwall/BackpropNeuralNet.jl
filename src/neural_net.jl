@@ -89,7 +89,7 @@ function feedforward(network::NeuralNetwork, inputs::Vector{Float64})
     end
 
     for n in 1:length(network.weights)
-        for j in 1:network.structure[n+1]
+        @simd for j in 1:network.structure[n+1]
             s = dot(network.activation_nodes[n], network.weights[n][:, j])
             network.activation_nodes[n+1][j] = network.propagation_function(s)
         end
