@@ -6,7 +6,7 @@ type NeuralNetwork
     initial_weight_function::Function
     propagation_function::Function
     derivative_propagation_function::Function
-    activation_nodes::SharedArray{Array{Float64}, 1}
+    activation_nodes::Array{Array{Float64}, 1}
     weights::Array{Array{Float64}, 1}
     last_changes::Array{Array{Float64}, 1}
     deltas::Array{Array{Float64}, 1}
@@ -84,12 +84,12 @@ function net_eval(network::NeuralNetwork, inputs::Vector{Float64})
 end
 
 function feedforward(network::NeuralNetwork, inputs::Vector{Float64})
-    @sync @parallel for i in 1:length(inputs)
+    @simd for i in 1:length(inputs)
         network.activation_nodes[1][i] = inputs[i]
     end
 
     for n in 1:length(network.weights)
-        @sync @parallel for j in 1:network.structure[n+1]
+        @simd for j in 1:network.structure[n+1]
             s = dot(network.activation_nodes[n], network.weights[n][:, j])
             network.activation_nodes[n+1][j] = network.propagation_function(s)
         end
