@@ -13,7 +13,7 @@ Pkg.add("BackpropNeuralNet")
 ## Source
 
 ```julia
-Pkg.clone("https://github.com/compressed/BackpropNeuralNet.jl.git")
+Pkg.clone("https://github.com/bwall/BackpropNeuralNet.jl.git")
 ```
 
 # Usage
